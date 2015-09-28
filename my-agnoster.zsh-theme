@@ -162,6 +162,25 @@ prompt_hg() {
   fi
 }
 
+prompt_svn() {
+  local PL_BRANCH_CHAR
+  () {
+    local LC_ALL="" LC_CTYPE="en_US.UTF-8"
+    PL_BRANCH_CHAR=$'\ue0a0'         # 
+  }
+  if svn_is_inside; then
+    ZSH_THEME_SVN_PROMPT_DIRTY='±'
+    local ref dirty
+    if svn_parse_dirty; then
+      dirty=$ZSH_THEME_SVN_PROMPT_DIRTY
+      prompt_segment yellow black
+    else
+      prompt_segment green black
+    fi
+    echo -n "${PL_BRANCH_CHAR} $(svn_branch_name)@$(svn_rev)$dirty"
+  fi
+}
+
 # Dir: current working directory
 prompt_dir() {
   prompt_segment blue default '%~'
@@ -198,6 +217,7 @@ build_prompt() {
   prompt_dir
   prompt_git
   prompt_hg
+  prompt_svn
   prompt_end
 }
 
