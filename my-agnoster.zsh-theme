@@ -167,13 +167,13 @@ svn_dirty_st() {
   total_num=`cat /tmp/$$ | wc -l`
   num=`cat /tmp/$$ | grep '^M' | wc -l`
   [ $num -gt 0 ] && echo -n "∓$num"
-  $(( total_num -= num ))
+  total_num=$(( total_num - num ))
   num=`cat /tmp/$$ | grep '^A' | wc -l`
   [ $num -gt 0 ] && echo -n "✚$num"
-  $(( total_num -= num ))
+  total_num=$(( total_num - num ))
   num=`cat /tmp/$$ | grep '^D' | wc -l`
   [ $num -gt 0 ] && echo -n "━$num"
-  $(( total_num -= num ))
+  total_num=$(( total_num - num ))
   [ $total_num -gt 0 ] && echo -n "⍰$total_num"
   rm /tmp/$$
 }
