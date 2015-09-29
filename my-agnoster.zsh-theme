@@ -162,6 +162,19 @@ prompt_hg() {
   fi
 }
 
+svn_dirty_st() {
+  svn st > /tmp/$$
+  num=`cat /tmp/$$ | grep ^M | wc -l`
+  [ $num -gt 0 ] && echo -n "∓$num"
+  num=`cat /tmp/$$ | grep ^A | wc -l`
+  [ $num -gt 0 ] && echo -n "✚$num"
+  num=`cat /tmp/$$ | grep ^D | wc -l`
+  [ $num -gt 0 ] && echo -n "━$num"
+  num=`cat /tmp/$$ | grep '^?' | wc -l`
+  [ $num -gt 0 ] && echo -n "‽$num"
+  rm /tmp/$$
+}
+
 prompt_svn() {
   local PL_BRANCH_CHAR
   () {
@@ -172,7 +185,8 @@ prompt_svn() {
     ZSH_THEME_SVN_PROMPT_DIRTY='±'
     local ref dirty
     if svn_parse_dirty; then
-      dirty=$ZSH_THEME_SVN_PROMPT_DIRTY
+      # dirty=$ZSH_THEME_SVN_PROMPT_DIRTY
+      dirty=`svn_dirty_st`
       prompt_segment yellow black
     else
       prompt_segment green black
