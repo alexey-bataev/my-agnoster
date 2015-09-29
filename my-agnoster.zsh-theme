@@ -172,7 +172,7 @@ svn_dirty_st() {
   num=`cat /tmp/$$ | grep '^D' | wc -l`
   [ $num -gt 0 ] && echo -n "━$((num))" && total_num=$(( total_num - num ))
   [ $total_num -gt 0 ] && echo -n "⍰$total_num"
-  rm /tmp/$$
+  rm -f /tmp/$$
 }
 
 prompt_svn() {
@@ -186,7 +186,7 @@ prompt_svn() {
     local ref dirty
     if svn_parse_dirty; then
       # dirty=$ZSH_THEME_SVN_PROMPT_DIRTY
-      dirty=`svn_dirty_st`
+      dirty=`svn_dirty_st 2>/dev/null`
       prompt_segment yellow black
     else
       prompt_segment green black
