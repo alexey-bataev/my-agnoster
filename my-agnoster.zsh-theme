@@ -163,16 +163,19 @@ prompt_hg() {
 }
 
 svn_dirty_st() {
-  svn st > /tmp/$$
-  total_num=`cat /tmp/$$ | wc -l`
-  num=`cat /tmp/$$ | grep '^M' | wc -l`
-  [ $num -gt 0 ] && echo -n "∓$((num))" && total_num=$(( total_num - num ))
-  num=`cat /tmp/$$ | grep '^A' | wc -l`
+  local svn_status="$(svn status 2> /dev/null)";
+  total_num=`echo $svn_status | wc -l`
+  num=`echo $svn_status | grep '^M' | wc -l`
+  [ $num -gt 0 ] && echo -n "✎$((num))" && total_num=$(( total_num - num ))
+  num=`echo $svn_status | grep '^A' | wc -l`
   [ $num -gt 0 ] && echo -n "✚$((num))" && total_num=$(( total_num - num ))
-  num=`cat /tmp/$$ | grep '^D' | wc -l`
-  [ $num -gt 0 ] && echo -n "━$((num))" && total_num=$(( total_num - num ))
+  num=`echo $svn_status | grep '^D' | wc -l`
+  [ $num -gt 0 ] && echo -n "✖$((num))" && total_num=$(( total_num - num ))
+  num=`echo $svn_status | grep '^[R~]' | wc -l`
+  [ $num -gt 0 ] && echo -n "∼$((num))" && total_num=$(( total_num - num ))
+  num=`echo $svn_status | grep '^[CI!L]' | wc -l`
+  [ $num -gt 0 ] && echo -n "‼$((num))" && total_num=$(( total_num - num ))
   [ $total_num -gt 0 ] && echo -n "⍰$total_num"
-  rm -f /tmp/$$
 }
 
 prompt_svn() {
