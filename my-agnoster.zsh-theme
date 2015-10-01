@@ -175,7 +175,7 @@ svn_dirty_st() {
   [ $num -gt 0 ] && echo -n "∼$((num))" && total_num=$(( total_num - num ))
   num=`echo $svn_status | grep '^[CI!L]' | wc -l`
   [ $num -gt 0 ] && echo -n "‼$((num))" && total_num=$(( total_num - num ))
-  [ $total_num -gt 0 ] && echo -n "⍰$total_num"
+  [ $total_num -gt 0 ] && echo -n "⍰$((total_num))"
 }
 
 prompt_svn() {
