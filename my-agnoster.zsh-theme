@@ -86,7 +86,7 @@ prompt_context() {
 
 # Git: branch/detached head, dirty status
 prompt_git() {
-
+  [[ -d .git ]] || return
   local PL_BRANCH_CHAR
   () {
     local LC_ALL="" LC_CTYPE="en_US.UTF-8"
@@ -179,6 +179,7 @@ svn_dirty_st() {
 }
 
 prompt_svn() {
+  [[ -d .svn ]] || return
   local PL_BRANCH_CHAR
   () {
     local LC_ALL="" LC_CTYPE="en_US.UTF-8"
