@@ -70,7 +70,7 @@ prompt_end() {
     echo -n "%{%k%}"
   fi
   echo -n "%{%f%}"
-  echo -ne "\a"
+  # echo -ne "\a"
   CURRENT_BG=''
 }
 
